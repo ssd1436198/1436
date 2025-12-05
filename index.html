@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Get Well Soon, My Love ❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* MOBILE-FIRST CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            font-size: 14px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #fff9fb;
+            color: #333;
+            line-height: 1.5;
+            overflow-x: hidden;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 2000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 0.8rem 1.2rem;
+            box-shadow: 0 5px 20px rgba(194, 24, 91, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+        
+        .music-player:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(194, 24, 91, 0.3);
+        }
+        
+        .music-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff85a2, #e91e63);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .music-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        
+        .music-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #c2185b;
+            white-space: nowrap;
+        }
+        
+        .music-status {
+            font-size: 0.8rem;
+            color: #7b1fa2;
+            opacity: 0.8;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 0.5rem;
+        }
+        
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 2px;
+            appearance: none;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e91e63;
+            cursor: pointer;
+        }
+        
+        /* Safe area for notch phones */
+        .safe-area-top {
+            padding-top: env(safe-area-inset-top);
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+        }
+        
+        /* Header - Mobile Optimized */
+        header {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .header-content {
+            max-width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            line-height: 1.2;
+            padding: 0 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            padding: 0 1rem;
+        }
+        
+        .heart {
+            color: #ff4d6d;
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Floating hearts for decoration */
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1.5rem;
+            animation: floatUp 8s linear infinite;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* =============================
+           BEAUTIFUL NAVIGATION STYLING
+           ============================= */
+        
+        /* Main Navigation Container */
+        .main-navigation {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 182, 193, 0.3);
+            box-shadow: 0 2px 15px rgba(214, 51, 132, 0.1);
+            padding: 0.8rem 1rem;
+        }
+        
+        /* Desktop Navigation - Flower Themed */
+        .desktop-nav {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .nav-flower {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            min-width: 90px;
+        }
+        
+        .nav-flower::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ffafcc 0%, #ffc8dd 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+            border-radius: 50px;
+        }
+        
+        .nav-flower:hover::before,
+        .nav-flower.active::before {
+            opacity: 1;
+        }
+        
+        .nav-flower:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+        }
+        
+        .nav-icon {
+            font-size: 1.6rem;
+            color: #d63384;
+            margin-bottom: 0.4rem;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .nav-flower:hover .nav-icon {
+            transform: scale(1.2) rotate(10deg);
+            color: #fff;
+        }
+        
+        .nav-flower.active .nav-icon {
+            color: #fff;
+            animation: flowerBloom 0.6s ease;
+        }
+        
+        @keyframes flowerBloom {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1.2); }
+        }
+        
+        .nav-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #d63384;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .nav-flower:hover .nav-text,
+        .nav-flower.active .nav-text {
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Flower petal decoration */
+        .nav-flower::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: -15px;
+            left: -15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-flower:hover::after {
+            opacity: 0.5;
+        }
+        
+        /* Mobile Navigation - Flower Circle */
+        .mobile-nav-container {
+            display: block;
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 1100;
+        }
+        
+        /* Main mobile menu button (flower) */
+        .mobile-menu-flower {
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.4);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 100;
+            border: 3px solid white;
+        }
+        
+        .mobile-menu-flower:hover,
+        .mobile-menu-flower.active {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.6);
+        }
+        
+        .mobile-menu-flower i {
+            transition: transform 0.3s;
+        }
+        
+        /* Flower petal menu items */
+        .flower-petals {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4rem;
+            height: 4rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .flower-petals.active {
+            width: 16rem;
+            height: 16rem;
+        }
+        
+        .petal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            width: 4rem;
+            height: 4rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .flower-petals.active .petal {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Position each petal in a circle */
+        .flower-petals.active .petal:nth-child(1) {
+            transform: translate(-50%, -50%) rotate(0deg) translateX(7rem) rotate(-0deg);
+        }
+        
+        .flower-petals.active .petal:nth-child(2) {
+            transform: translate(-50%, -50%) rotate(72deg) translateX(7rem) rotate(-72deg);
+        }
+        
+        .flower-petals.active .petal:nth-child(3) {
+            transform: translate(-50%, -50%) rotate(144deg) translateX(7rem) rotate(-144deg);
+        }
+        
+        .flower-petals.active .petal:nth-child(4) {
+            transform: translate(-50%, -50%) rotate(216deg) translateX(7rem) rotate(-216deg);
+        }
+        
+        .flower-petals.active .petal:nth-child(5) {
+            transform: translate(-50%, -50%) rotate(288deg) translateX(7rem) rotate(-288deg);
+        }
+        
+        /* Individual petal styling */
+        .petal-link {
+            width: 3.5rem;
+            height: 3.5rem;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d63384;
+            font-size: 1.3rem;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .petal-link:hover {
+            background: #ff4d6d;
+            color: white;
+            transform: scale(1.1);
+            border-color: white;
+            box-shadow: 0 6px 18px rgba(255, 77, 109, 0.4);
+        }
+        
+        .petal-label {
+            position: absolute;
+            bottom: -1.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #d63384;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+        }
+        
+        .petal-link:hover .petal-label {
+            opacity: 1;
+        }
+        
+        /* Back to top button - Flower style */
+        .back-to-top-flower {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            background: linear-gradient(135deg, #ffafcc 0%, #ffc8dd 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s;
+            text-decoration: none;
+            border: 2px solid white;
+        }
+        
+        .back-to-top-flower.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top-flower:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6);
+        }
+        
+        /* Section Styling */
+        section {
+            padding: 2.5rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            scroll-margin-top: 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: #d63384;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #ffafcc, #ff4d6d);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        /* Photo Gallery - Mobile Grid */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .photo-frame {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 250px;
+            position: relative;
+            touch-action: manipulation;
+        }
+        
+        .photo-frame:active {
+            transform: scale(0.98);
+        }
+        
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .photo-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: #d63384;
+            font-size: 1.1rem;
+        }
+        
+        /* Message Section */
+        .message-section {
+            background-color: rgba(255, 245, 250, 0.9);
+            border-radius: 16px;
+            margin: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #555;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #ffafcc;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sender {
+            font-size: 1.3rem;
+            color: #d63384;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        /* Flowers Section - Mobile Carousel Style */
+        .flower-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding: 1rem 0.5rem;
+            margin-top: 1rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        
+        .flower-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .flower {
+            flex: 0 0 auto;
+            width: 140px;
+            text-align: center;
+            scroll-snap-align: start;
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem 0.8rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+        
+        .flower:active {
+            transform: scale(0.95);
+        }
+        
+        .flower-icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+            color: #ff4d6d;
+        }
+        
+        .flower-name {
+            font-weight: 700;
+            color: #d63384;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Recovery Tips */
+        .recovery-tips {
+            background-color: white;
+            padding: 1.8rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 2rem;
+        }
+        
+        .recovery-tips h3 {
+            color: #d63384;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .tips-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .tip {
+            padding: 1rem;
+            background-color: #fff9fb;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+        
+        .tip i {
+            color: #ff4d6d;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        /* Get Well Wishes */
+        .wishes-section {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            background: linear-gradient(to bottom, #ffafcc, #ffc8dd);
+            border-radius: 20px 20px 0 0;
+            margin-top: 2rem;
+        }
+        
+        .wishes {
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            padding: 0 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: #ff4d6d;
+            color: white;
+        }
+        
+        .footer-text {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-heart {
+            color: #ffccd5;
+            animation: heartbeat 1.5s infinite;
+            margin: 0 0.3rem;
+        }
+        
+        /* Tablet Styles */
+        @media (min-width: 768px) {
+            html {
+                font-size: 16px;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .main-navigation {
+                padding: 1rem;
+            }
+            
+            .desktop-nav {
+                display: flex;
+            }
+            
+            .mobile-nav-container {
+                display: none;
+            }
+            
+            .nav-flower {
+                min-width: 110px;
+                padding: 1rem 1.5rem;
+            }
+            
+            .nav-icon {
+                font-size: 1.8rem;
+            }
+            
+            .nav-text {
+                font-size: 1rem;
+            }
+            
+            .photo-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .photo-frame {
+                height: 280px;
+            }
+            
+            .flower-container {
+                justify-content: center;
+                overflow-x: visible;
+                flex-wrap: wrap;
+            }
+            
+            .tips-list {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Desktop Styles */
+        @media (min-width: 1024px) {
+            section {
+                padding: 4rem 2rem;
+            }
+            
+            .photo-gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .photo-frame {
+                height: 300px;
+            }
+            
+            .photo-frame:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            }
+            
+            .flower:hover {
+                transform: translateY(-8px);
+            }
+            
+            .tip {
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Extra large screens */
+        @media (min-width: 1200px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .wishes {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* iPhone X and later safe area */
+        @supports (padding: max(0px)) {
+            header, section, footer, .main-navigation, .music-player {
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+            
+            .music-player {
+                right: max(1rem, env(safe-area-inset-right));
+                top: max(1rem, env(safe-area-inset-top));
+            }
+            
+            .mobile-nav-container {
+                right: max(1.5rem, env(safe-area-inset-right));
+                bottom: max(1.5rem, env(safe-area-inset-bottom));
+            }
+            
+            .back-to-top-flower {
+                left: max(1.5rem, env(safe-area-inset-left));
+                bottom: max(1.5rem, env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Music Player -->
+    <div class="music-player">
+        <button class="music-btn" id="playBtn">
+            <i class="fas fa-play"></i>
+        </button>
+        <div class="music-info">
+            <div class="music-title">Get Well Music</div>
+            <div class="music-status" id="musicStatus">Click to play</div>
+        </div>
+        <div class="volume-control">
+            <i class="fas fa-volume-up" style="color: #c2185b; font-size: 0.9rem;"></i>
+            <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider">
+        </div>
+    </div>
+    
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <!-- Music will be loaded via JavaScript -->
+    </audio>
+    
+    <!-- Safe area for notch phones -->
+    <div class="safe-area-top"></div>
+    
+    <!-- Beautiful Navigation -->
+    <nav class="main-navigation">
+        <div class="desktop-nav">
+            <a href="#photos" class="nav-flower" data-nav="photos">
+                <i class="fas fa-images nav-icon"></i>
+                <span class="nav-text">Memories</span>
+            </a>
+            <a href="#message" class="nav-flower" data-nav="message">
+                <i class="fas fa-envelope nav-icon"></i>
+                <span class="nav-text">Love Note</span>
+            </a>
+            <a href="#home" class="nav-flower" data-nav="home">
+                <i class="fas fa-home nav-icon"></i>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="#flowers" class="nav-flower" data-nav="flowers">
+                <i class="fas fa-spa nav-icon"></i>
+                <span class="nav-text">Flowers</span>
+            </a>
+            <a href="#tips" class="nav-flower" data-nav="tips">
+                <i class="fas fa-heartbeat nav-icon"></i>
+                <span class="nav-text">Get Well Tips</span>
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Header with main message -->
+    <header id="home">
+        <div class="floating-hearts" id="floatingHearts"></div>
+        <div class="header-content">
+            <h1>Get Well Soon, My Love <span class="heart">❤️</span></h1>
+            <p class="subtitle">Sending you all my love and healing wishes</p>
+            <p><i class="fas fa-heartbeat" style="font-size: 1.5rem;"></i></p>
+        </div>
+    </header>
+    
+    <!-- Photo gallery section -->
+    <section id="photos">
+        <h2 class="section-title">Our Beautiful Memories</h2>
+        <div class="photo-gallery">
+            <div class="photo-frame">
+                <img src="us.jpeg" alt="Happy moment together" class="photo">
+                <div class="photo-label">Happy Times</div>
+            </div>
+            <div class="photo-frame">
+                <img src="smile.jpeg" alt="Beautiful smile" class="photo">
+                <div class="photo-label">Your Beautiful Smile</div>
+            </div>
+            <div class="photo-frame">
+                <img src="spe.jpeg" alt="Special day together" class="photo">
+                <div class="photo-label">Special Moments</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Personal message section -->
+    <section id="message">
+        <div class="message-section">
+            <h2 class="section-title">My Message to You</h2>
+            <div class="message">
+                My dearest love, seeing you unwell breaks my heart. I wish I could take away all your discomfort and replace it with comfort and joy. Please remember to rest, drink plenty of fluids, and take your medicine. I'm counting down the moments until I can see your beautiful smile again. Every day without you feeling your best feels too long. I'm sending you gentle hugs, warm kisses, and all the love in my heart. Get well soon, my angel.
+            </div>
+            <p class="sender">With all my love, always and forever.</p>
+        </div>
+    </section>
+    
+    <!-- Flowers section -->
+    <section id="flowers">
+        <h2 class="section-title">Virtual Flowers for You</h2>
+        <div class="flower-container">
+            <div class="flower">
+                <div class="flower-icon"><i class="fas fa-spa"></i></div>
+                <div class="flower-name">Roses</div>
+                <p>For your beauty</p>
+            </div>
+            <div class="flower">
+                <div class="flower-icon"><i class="fas fa-seedling"></i></div>
+                <div class="flower-name">Lilies</div>
+                <p>For your sweetness</p>
+            </div>
+            <div class="flower">
+                <div class="flower-icon"><i class="fab fa-pagelines"></i></div>
+                <div class="flower-name">Sunflowers</div>
+                <p>To brighten your day</p>
+            </div>
+            <div class="flower">
+                <div class="flower-icon"><i class="fas fa-leaf"></i></div>
+                <div class="flower-name">Tulips</div>
+                <p>For perfect love</p>
+            </div>
+            <div class="flower">
+                <div class="flower-icon"><i class="fas fa-feather-alt"></i></div>
+                <div class="flower-name">Daisies</div>
+                <p>For your cheer</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recovery tips section -->
+    <section id="tips">
+        <div class="recovery-tips">
+            <h3>Tips for a Speedy Recovery</h3>
+            <div class="tips-list">
+                <div class="tip">
+                    <i class="fas fa-bed"></i>
+                    <span>Get plenty of rest and sleep</span>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-tint"></i>
+                    <span>Stay hydrated with warm fluids</span>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-apple-alt"></i>
+                    <span>Eat nutritious foods</span>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-pills"></i>
+                    <span>Take your medication on time</span>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-smile"></i>
+                    <span>Think positive thoughts</span>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-heart"></i>
+                    <span>Remember you're loved</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Get well wishes section -->
+    <section class="wishes-section">
+        <div class="wishes">
+            Get Well Soon, My Love! <span class="heart">💖</span>
+        </div>
+        <p style="color: white; font-size: 1.2rem; margin-top: 1rem;">I can't wait to see you healthy and happy again</p>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">Made with <span class="footer-heart">❤️</span> for the most special person</p>
+        <p class="footer-text">I'm always here for you, just a call away</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">© A Get-Well-Soon Wish From Your Loving Boyfriend</p>
+    </footer>
+    
+    <!-- Mobile Navigation (Flower Circle) -->
+    <div class="mobile-nav-container">
+        <div class="flower-petals" id="flowerPetals">
+            <!-- Petals will be added dynamically -->
+        </div>
+        <div class="mobile-menu-flower" id="mobileMenuFlower">
+            <i class="fas fa-plus"></i>
+        </div>
+    </div>
+    
+    <!-- Back to top flower button -->
+    <a href="#home" class="back-to-top-flower" id="backToTopFlower">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    
+    <script>
+        // ============================================
+        // BACKGROUND MUSIC SETUP
+        // ============================================
+        const audio = document.getElementById('backgroundMusic');
+        const playBtn = document.getElementById('playBtn');
+        const musicStatus = document.getElementById('musicStatus');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        // Calming healing music tracks
+        const musicTracks = [
+            'rabta.mpeg',  // Calming instrumental
+            'tere huma.mpeg',   // Soft piano
+             // Gentle love song
+        ];
+        
+        // Select a random track
+        const selectedTrack = musicTracks[Math.floor(Math.random() * musicTracks.length)];
+        audio.src = selectedTrack;
+        
+        // Set audio to loop (auto-restart when finished)
+        audio.loop = true;
+        
+        // Initialize volume
+        audio.volume = volumeSlider.value / 100;
+        
+        // Play/Pause functionality
+        let isPlaying = false;
+        
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                musicStatus.textContent = 'Paused';
+            } else {
+                audio.play().then(() => {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    musicStatus.textContent = 'Playing healing music...';
+                    isPlaying = true;
+                }).catch(error => {
+                    console.log('Audio play failed:', error);
+                    musicStatus.textContent = 'Click to play';
+                    // Fallback: Try to play on next user interaction
+                    document.addEventListener('click', function tryPlayOnce() {
+                        audio.play().then(() => {
+                            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                            musicStatus.textContent = 'Playing healing music...';
+                            isPlaying = true;
+                        });
+                        document.removeEventListener('click', tryPlayOnce);
+                    });
+                });
+            }
+        });
+        
+        // Volume control
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value / 100;
+        });
+        
+        // Handle audio ended event (for loop)
+        audio.addEventListener('ended', function() {
+            // This shouldn't trigger if loop=true, but just in case
+            if (isPlaying) {
+                audio.currentTime = 0;
+                audio.play();
+            }
+        });
+        
+        // Handle audio errors
+        audio.addEventListener('error', function(e) {
+            console.error('Audio error:', e);
+            musicStatus.textContent = 'Music unavailable';
+            playBtn.disabled = true;
+        });
+        
+        // Auto-start music gently after user interaction
+        document.addEventListener('click', function initAudioOnce() {
+            if (!isPlaying) {
+                // Start with low volume
+                audio.volume = 0.3;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    musicStatus.textContent = 'Playing healing music...';
+                    
+                    // Gradually increase volume
+                    const fadeIn = setInterval(() => {
+                        if (audio.volume < volumeSlider.value / 100) {
+                            audio.volume += 0.05;
+                        } else {
+                            clearInterval(fadeIn);
+                        }
+                    }, 100);
+                }).catch(e => {
+                    console.log('Auto-play not allowed, waiting for button click');
+                });
+            }
+            document.removeEventListener('click', initAudioOnce);
+        });
+        
+        // ============================================
+        // ORIGINAL WEBSITE FUNCTIONALITY
+        // ============================================
+        
+        // Mobile flower navigation functionality
+        const mobileMenuFlower = document.getElementById('mobileMenuFlower');
+        const flowerPetals = document.getElementById('flowerPetals');
+        const backToTopFlower = document.getElementById('backToTopFlower');
+        
+        // Define navigation items for mobile flower
+        const mobileNavItems = [
+            { icon: 'fa-home', label: 'Home', target: '#home' },
+            { icon: 'fa-images', label: 'Memories', target: '#photos' },
+            { icon: 'fa-envelope', label: 'Love Note', target: '#message' },
+            { icon: 'fa-spa', label: 'Flowers', target: '#flowers' },
+            { icon: 'fa-heartbeat', label: 'Get Well Tips', target: '#tips' }
+        ];
+        
+        // Create petal elements
+        mobileNavItems.forEach((item, index) => {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            
+            const petalLink = document.createElement('a');
+            petalLink.href = item.target;
+            petalLink.className = 'petal-link';
+            
+            const icon = document.createElement('i');
+            icon.className = `fas ${item.icon}`;
+            
+            const label = document.createElement('span');
+            label.className = 'petal-label';
+            label.textContent = item.label;
+            
+            petalLink.appendChild(icon);
+            petalLink.appendChild(label);
+            petal.appendChild(petalLink);
+            flowerPetals.appendChild(petal);
+            
+            // Smooth scroll for petal links
+            petalLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close flower menu
+                    flowerPetals.classList.remove('active');
+                    mobileMenuFlower.classList.remove('active');
+                    mobileMenuFlower.innerHTML = '<i class="fas fa-plus"></i>';
+                    
+                    // Scroll to section
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav
+                    updateActiveNav(targetId.substring(1));
+                }
+            });
+        });
+        
+        // Toggle flower menu
+        mobileMenuFlower.addEventListener('click', function() {
+            flowerPetals.classList.toggle('active');
+            this.classList.toggle('active');
+            
+            if (this.classList.contains('active')) {
+                this.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                this.innerHTML = '<i class="fas fa-plus"></i>';
+            }
+        });
+        
+        // Close flower menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileMenuFlower.contains(e.target) && !flowerPetals.contains(e.target)) {
+                flowerPetals.classList.remove('active');
+                mobileMenuFlower.classList.remove('active');
+                mobileMenuFlower.innerHTML = '<i class="fas fa-plus"></i>';
+            }
+        });
+        
+        // Back to top button
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopFlower.classList.add('visible');
+            } else {
+                backToTopFlower.classList.remove('visible');
+            }
+            
+            // Update active navigation based on scroll position
+            updateActiveNavOnScroll();
+        });
+        
+        backToTopFlower.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // Update active nav
+            updateActiveNav('home');
+        });
+        
+        // Create floating hearts
+        const floatingHeartsContainer = document.getElementById('floatingHearts');
+        const heartCount = 15;
+        
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+            
+            // Random positioning
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.fontSize = `${Math.random() * 1 + 1}rem`;
+            heart.style.animationDelay = `${Math.random() * 5}s`;
+            heart.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            
+            floatingHeartsContainer.appendChild(heart);
+        }
+        
+        // Update active navigation based on scroll position
+        function updateActiveNavOnScroll() {
+            const sections = document.querySelectorAll('section, header');
+            let currentSection = 'home';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                
+                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionBottom) {
+                    const sectionId = section.id || 'home';
+                    currentSection = sectionId;
+                }
+            });
+            
+            updateActiveNav(currentSection);
+        }
+        
+        // Update active navigation
+        function updateActiveNav(activeId) {
+            // Update desktop nav
+            document.querySelectorAll('.nav-flower').forEach(navItem => {
+                navItem.classList.remove('active');
+                if (navItem.getAttribute('data-nav') === activeId) {
+                    navItem.classList.add('active');
+                }
+            });
+            
+            // Update mobile nav petals
+            document.querySelectorAll('.petal-link').forEach(petal => {
+                petal.classList.remove('active');
+                const href = petal.getAttribute('href');
+                if (href === `#${activeId}`) {
+                    petal.classList.add('active');
+                }
+            });
+        }
+        
+        // Initialize active nav
+        updateActiveNav('home');
+        
+        // Photo click effect
+        document.querySelectorAll('.photo-frame').forEach(frame => {
+            frame.addEventListener('click', function() {
+                // Create a temporary overlay to show the image larger
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                overlay.style.display = 'flex';
+                overlay.style.justifyContent = 'center';
+                overlay.style.alignItems = 'center';
+                overlay.style.zIndex = '2000';
+                overlay.style.padding = '1rem';
+                
+                const img = this.querySelector('.photo').cloneNode();
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '90vh';
+                img.style.borderRadius = '10px';
+                
+                overlay.appendChild(img);
+                document.body.appendChild(overlay);
+                
+                // Close overlay on click
+                overlay.addEventListener('click', function() {
+                    document.body.removeChild(overlay);
+                });
+            });
+        });
+        
+        // Add touch feedback to interactive elements
+        document.querySelectorAll('.flower, .tip, .nav-flower, .petal-link').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            
+            element.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+        
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Add a surprise when tapping the header heart
+        const headerHeart = document.querySelector('h1 .heart');
+        let tapCount = 0;
+        let tapTimer;
+        
+        headerHeart.addEventListener('click', function() {
+            tapCount++;
+            
+            if (tapCount === 5) {
+                alert("You're the strongest and most beautiful person I know! Get well soon, my love! 💕");
+                tapCount = 0;
+            }
+            
+            clearTimeout(tapTimer);
+            tapTimer = setTimeout(() => {
+                tapCount = 0;
+            }, 1000);
+        });
+        
+        // Smooth scroll for desktop nav links
+        document.querySelectorAll('.nav-flower').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('data-nav');
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav
+                    updateActiveNav(targetId);
+                }
+            });
+        });
+        
+        // Add animation to desktop nav on load
+        document.querySelectorAll('.nav-flower').forEach((nav, index) => {
+            nav.style.animationDelay = `${index * 0.1}s`;
+            nav.classList.add('animate-on-load');
+        });
+        
+        // Add healing flower animation when clicking flower cards
+        document.querySelectorAll('.flower').forEach(card => {
+            card.addEventListener('click', function() {
+                // Play a gentle healing sound
+                try {
+                    const healingSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-300.mp3');
+                    healingSound.volume = 0.2;
+                    healingSound.play();
+                } catch (e) {
+                    console.log('Healing sound unavailable');
+                }
+                
+                // Create flower particles
+                const rect = this.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                for (let i = 0; i < 10; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.left = `${centerX}px`;
+                    particle.style.top = `${centerY}px`;
+                    particle.style.fontSize = '1.5rem';
+                    particle.style.zIndex = '1000';
+                    particle.style.pointerEvents = 'none';
+                    
+                    // Flower emojis
+                    const flowerEmojis = ['🌸', '🌺', '🌷', '🌼', '🌹', '💐'];
+                    particle.textContent = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+                    
+                    document.body.appendChild(particle);
+                    
+                    // Animate particle
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 30 + Math.random() * 70;
+                    const duration = 800 + Math.random() * 800;
+                    
+                    const animation = particle.animate([
+                        {
+                            transform: `translate(0, 0) rotate(0deg) scale(1)`,
+                            opacity: 1
+                        },
+                        {
+                            transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) rotate(360deg) scale(0)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: duration,
+                        easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+                    });
+                    
+                    // Remove particle after animation
+                    animation.onfinish = () => {
+                        document.body.removeChild(particle);
+                    };
+                }
+            });
+        });
+    </script>
+</body>
+</html>
